@@ -64,12 +64,35 @@ def is_rectangle(coordinates, p1, p2, p3, p4):
     p1_to_p3_distance = (coordinates[p1][0] - coordinates[p3][0])**2 + (coordinates[p1][1] - coordinates[p3][1])**2
     p1_to_p4_distance = (coordinates[p1][0] - coordinates[p4][0])**2 + (coordinates[p1][1] - coordinates[p4][1])**2
     if(p1_to_p2_distance == p1_to_p3_distance or p1_to_p2_distance == p1_to_p4_distance or p1_to_p3_distance == p1_to_p4_distance):
-        return False
+        return False #When there is a similar distance between p1 to 2 other points (square has the same length of sides)
     return True
 
 #A helper function for form_rectangle to determine if all points in coordinates is contained on the rectangle
 def points_on_rectangle(coordinates, p1, p2, p3, p4):
-    pass
+    #Get the coordinate not connected to p1 through a line
+    p1_to_p2_distance = (coordinates[p1][0] - coordinates[p2][0])**2 + (coordinates[p1][1] - coordinates[p2][1])**2
+    p1_to_p3_distance = (coordinates[p1][0] - coordinates[p3][0])**2 + (coordinates[p1][1] - coordinates[p3][1])**2
+    p1_to_p4_distance = (coordinates[p1][0] - coordinates[p4][0])**2 + (coordinates[p1][1] - coordinates[p4][1])**2
+    # if(max(p1_to_p2_distance, p1_to_p3_distance, p1_to_p4_distance) == p1_to_p2_distance):
+
+    # elif(max(p1_to_p2_distance, p1_to_p3_distance, p1_to_p4_distance) == p1_to_p3_distance):
+
+    # else:
+
+#A helper function for points_on_rectangle to determine whether p3 is between p1 and p2
+def is_between(coordinates, p1, p2, p3):
+    cross_product = (coordinates[p3][1] - coordinates[p1][1]) * (coordinates[p2][0] - coordinates[p1][0]) - (coordinates[p3][0] - coordinates[p1][0]) * (coordinates[p2][1] - coordinates[p1][1])
+    if cross_product != 0:
+        return False
+
+    dot_product = (coordinates[p3][0] - coordinates[p1][0]) * (coordinates[p2][0] - coordinates[p1][0]) + (coordinates[p3][1] - coordinates[p1][1]) * (coordinates[p2][1] - coordinates[p1][1])
+    if dot_product < 0:
+        return False
+
+    squared_length_p1_p2 = (coordinates[p2][0] - coordinates[p1][0])**2 + (coordinates[p2][1] - coordinates[p1][1])**2
+    if dot_product > squared_length_p1_p2:
+        return False
+    return True
 
 #main function
 def main():
@@ -80,6 +103,7 @@ def main():
         return
     modify_input(points, coordinates)
     print(is_rectangle(coordinates, 0, 1, 2 ,3))
+    print(is_between(coordinates, 0, 1, 4))
     # if form_rectangle(coordinates) == True:
     #     print('Rectangle can be made from the coordinates given')
     # else:
